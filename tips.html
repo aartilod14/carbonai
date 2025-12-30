@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>EcoTrack — Tips</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo-img">
+      <span class="brand">EcoTrack</span>
+    </div>
+    <nav class="nav-right">
+      <a href="{{ url_for('index') }}" class="nav-link">Calculate</a>
+      <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+      <a href="{{ url_for('tips') }}" class="nav-link active">Tips</a>
+      <button id="theme-toggle" class="theme-btn">Dark</button>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="card">
+      <h1>Practical Tips to Reduce Footprint</h1>
+
+      <div class="tips-grid">
+        {% for tip in tips %}
+          <article class="tip-card">
+            <h3>{{ tip.title }}</h3>
+            <p>{{ tip.text }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack Dashboard</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2 class="logo">EcoTrack</h2>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/upload">Upload File</a>
+        <a href="/history">History</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Welcome Back 👋</h1>
+            <p>Your environmental insights at a glance.</p>
+        </header>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Total Records</h3>
+                <p>134</p>
+            </div>
+
+            <div class="card">
+                <h3>Processed Files</h3>
+                <p>87</p>
+            </div>
+
+            <div class="card">
+                <h3>Pending Reviews</h3>
+                <p>12</p>
+            </div>
+
+            <div class="card">
+                <h3>CO₂ Saved (kg)</h3>
+                <p>452</p>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Monthly CO₂ Reduction</h2>
+            <canvas id="co2Chart"></canvas>
+        </div>
+
+    </div>
+
+<script>
+    // ---------- CHART WORKING CODE ----------
+    const ctx = document.getElementById("co2Chart").getContext("2d");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],
+            datasets: [{
+                label: "CO₂ Reduction (kg)",
+                data: [12, 19, 3, 5, 2, 30, 45, 28],
+                borderWidth: 3,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
+<h3>Carbon Savings Simulator</h3>
+<label>Travel km/day: <input type="number" id="sim-travel" value="0"></label>
+<label>Electricity kWh/day: <input type="number" id="sim-electricity" value="0"></label>
+<button onclick="simulateSavings()">Simulate Savings</button>
+<p id="sim-result"></p>
+<canvas id="simChart" width="400" height="150"></canvas>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>EcoTrack — Carbon Calculator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo-img">
+      <span class="brand">EcoTrack</span>
+    </div>
+
+    <nav class="nav-right">
+      <a href="{{ url_for('index') }}" class="nav-link active">Calculate</a>
+      <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+      <a href="{{ url_for('tips') }}" class="nav-link">Tips</a>
+      <button id="theme-toggle" class="theme-btn">Dark</button>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <h1>Carbon Footprint Calculator</h1>
+      <p class="subtitle">Quickly estimate your daily emissions and get personalized recommendations.</p>
+
+      <form id="calc-form" action="/result" method="POST" class="card">
+        <div class="grid">
+          <label>Daily Travel (km)</label>
+          <input type="number" step="0.1" name="travel" id="travel" value="{{ saved.get('travel','') }}" required>
+
+          <label>Electricity Usage (kWh/day)</label>
+          <input type="number" step="0.1" name="electricity" id="electricity" value="{{ saved.get('electricity','') }}" required>
+
+          <label>Diet Emissions (kg/day)</label>
+          <input type="number" step="0.1" name="diet" id="diet" value="{{ saved.get('diet','') }}" required>
+
+          <label>Shopping Emissions (kg/day)</label>
+          <input type="number" step="0.1" name="shopping" id="shopping" value="{{ saved.get('shopping','') }}" required>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary">Calculate</button>
+          <button type="button" id="reset-btn" class="btn ghost">Reset</button>
+        </div>
+
+        <p class="note">Your last inputs are saved locally for convenience.</p>
+      </form>
+
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

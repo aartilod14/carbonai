@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Eco Avatar</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h2 style="text-align:center;">Your Eco Avatar</h2>
+
+<!-- Store total in data attribute -->
+<div id="avatar" data-total="{{ total if total is not none else 0 }}" style="font-size: 80px; text-align:center; margin-top:30px;">🍃</div>
+<p style="text-align:center; font-size:18px;" id="avatar-msg"></p>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const avatarDiv = document.getElementById('avatar');
+    const msg = document.getElementById('avatar-msg');
+
+    // Read total from data attribute and convert to number
+    const total = Number(avatarDiv.dataset.total);
+
+    if(total < 8){
+        avatarDiv.textContent = "🌿";
+        msg.textContent = "Excellent! Low footprint 🌱";
+    } else if(total < 15){
+        avatarDiv.textContent = "🍂";
+        msg.textContent = "Moderate footprint 🍃";
+    } else {
+        avatarDiv.textContent = "🔥";
+        msg.textContent = "High footprint! Try reducing it!";
+    }
+});
+</script>
+</body>
+</html>

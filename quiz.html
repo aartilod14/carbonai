@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Eco Quiz</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h2>Eco Quiz</h2>
+
+<div id="quiz-container" data-questions='{{ questions|default([])|tojson }}'></div>
+<p id="quiz-result"></p>
+<button onclick="submitQuiz()">Submit Quiz</button>
+
+<script>
+const container = document.getElementById('quiz-container');
+
+// Safely parse questions from data attribute
+const questions = JSON.parse(container.dataset.questions);
+
+// Render questions
+questions.forEach((q,i)=>{
+    const div = document.createElement('div');
+    div.innerHTML = `<p>${i+1}. ${q.q}</p>`;
+    q.options.forEach((opt,j)=>{
+        div.innerHTML += `<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label><br>`;
+    });
+    container.appendChild(div);
+});
+
+// Submit quiz
+function submitQuiz(){
+    let score = 0;
+    questions.forEach((q,i)=>{
+        const sel = document.querySelector(`input[name=q${i}]:checked`);
+        if(sel && parseInt(sel.value) === q.answer) score += 10;
+    });
+    const result = document.getElementById('quiz-result');
+    result.textContent = `Your Score: ${score}`;
+    triggerConfetti(score/10*5);
+}
+
+// Confetti function
+function triggerConfetti(points){
+    for(let i=0;i<points*5;i++){
+        let el=document.createElement('div');
+        el.style.position='absolute';
+        el.style.left=Math.random()*window.innerWidth+'px';
+        el.style.top='0px';
+        el.style.width='5px';
+        el.style.height='10px';
+        el.style.background=['#00ff00','#00cc00','#009900'][Math.floor(Math.random()*3)];
+        el.style.opacity=0.8;
+        el.style.transition='all 2s linear';
+        document.body.appendChild(el);
+        setTimeout(()=>{el.style.top='100vh';},50);
+        setTimeout(()=>el.remove(),2100);
+    }
+}
+</script>
+</body>
+</html>

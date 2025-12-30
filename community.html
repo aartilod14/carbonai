@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Community Comparison</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h2>Community Comparison</h2>
+<canvas id="communityChart" width="400" height="200"></canvas>
+<script>
+const ctx = document.getElementById('communityChart').getContext('2d');
+const chart = new Chart(ctx,{
+    type:'line',
+    data:{
+        labels: Array.from({length:10},(_,i)=>`Day ${i+1}`),
+        datasets:[
+            {label:'You',data:Array.from({length:10},()=>Math.random()*20),borderColor:'green',fill:false},
+            {label:'Community Avg',data:Array.from({length:10},()=>Math.random()*20),borderColor:'blue',fill:false}
+        ]
+    },
+    options:{responsive:true}
+});
+</script>
+</body>
+</html>

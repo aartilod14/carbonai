@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>History / Snapshots</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h2 style="text-align:center;">Your Footprint History</h2>
+
+<!-- Store snapshots in data attribute safely -->
+<div id="history-data" data-snapshots='{{ snapshots|default([])|tojson }}'></div>
+
+<canvas id="historyChart" width="400" height="200" style="margin-top:20px;"></canvas>
+<button onclick="exportCSV()">Export CSV</button>
+
+<script>
+// Safely parse snapshots
+const snapshotsDiv = document.getElementById('history-data');
+const snapshots = JSON.parse(snapshotsDiv.dataset.snapshots);
+
+// Prepare chart data
+const labels = snapshots.map(s => s.timestamp.split('T')[0]);
+const totals = snapshots.map(s => s.total);
+
+// Render Chart.js line chart
+const ctx = document.getElementById('historyChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Total Footprint',
+            data: totals,
+            borderColor: 'green',
+            fill: false
+        }]
+    },
+    options: { responsive: true }
+});
+
+// Export CSV
+function exportCSV(){
+    let csv = "Date,Travel,Electricity,Diet,Shopping,Total\n";
+    snapshots.forEach(s => {
+        csv += `${s.timestamp},${s.travel},${s.electricity},${s.diet},${s.shopping},${s.total}\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "carbon_snapshots.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

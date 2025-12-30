@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Eco Habit Challenge</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h2>Daily Eco Habit Challenge</h2>
+<div class="habit">
+  <label><input type="checkbox" onchange="completeHabit(this)"> Use reusable bag today</label><br>
+  <label><input type="checkbox" onchange="completeHabit(this)"> Eat one plant-based meal</label><br>
+  <label><input type="checkbox" onchange="completeHabit(this)"> Turn off unused electronics</label>
+</div>
+<p id="habit-msg"></p>
+
+<script>
+function completeHabit(cb){
+    const msg = document.getElementById('habit-msg');
+    if(cb.checked){
+        msg.textContent = "✅ Challenge completed! +5 points";
+        msg.style.color = "green";
+        triggerConfetti(5);
+    } else {
+        msg.textContent = "";
+    }
+}
+
+function triggerConfetti(points){
+    for(let i=0;i<30;i++){
+        let el=document.createElement('div');
+        el.style.position='absolute';
+        el.style.left=Math.random()*window.innerWidth+'px';
+        el.style.top='0px';
+        el.style.width='5px';
+        el.style.height='10px';
+        el.style.background=['#00ff00','#00cc00','#009900'][Math.floor(Math.random()*3)];
+        el.style.opacity=0.8;
+        el.style.transition='all 2s linear';
+        document.body.appendChild(el);
+        setTimeout(()=>{el.style.top='100vh';},50);
+        setTimeout(()=>el.remove(),2100);
+    }
+}
+</script>
+</body>
+</html>

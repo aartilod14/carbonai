@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Leaderboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h2>Leaderboard</h2>
+<table border="1" cellpadding="10" cellspacing="0">
+<tr><th>User</th><th>Points</th><th>Badges</th></tr>
+{% for u in users %}
+<tr>
+<td>{{ u.name }}</td>
+<td>{{ u.points }}</td>
+<td>{{ ", ".join(u.badges) if u.badges else "-" }}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

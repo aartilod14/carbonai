@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>EcoTrack - Result</title>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">EcoTrack</div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Calculate</a></li>
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('tips') }}">Tips</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+
+    <div class="result-container fadeIn">
+        <h1>Your Carbon Footprint Result</h1>
+
+        <div class="score-card">
+            <h2>Total Carbon Score</h2>
+            <p class="score-number">{{ total }}</p>
+        </div>
+
+        <div class="breakdown">
+            <h3>Category Breakdown</h3>
+            <ul>
+                <li>Travel: <span>{{ travel }}</span></li>
+                <li>Electricity: <span>{{ electricity }}</span></li>
+                <li>Diet: <span>{{ diet }}</span></li>
+                <li>Shopping: <span>{{ shopping }}</span></li>
+            </ul>
+        </div>
+
+        <div class="message-box">
+            <h3>Analysis</h3>
+            <p>{{ message }}</p>
+        </div>
+
+        <a href="{{ url_for('index') }}" class="btn">Calculate Again</a>
+    </div>
+
+</body>
+</html>
+<h3>Mini Eco Game: Drag the correct eco action!</h3>
+<div id="game-container">
+    <div class="drag-item" draggable="true" data-correct="true">🌱 Plant a Tree</div>
+    <div class="drag-item" draggable="true" data-correct="false">🚗 Drive Car</div>
+    <div class="drag-item" draggable="true" data-correct="true">🚲 Cycle</div>
+</div>
+
+<div id="target-zone">Drop your eco action here ✅</div>
+<p id="game-msg"></p>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const dragItems = document.querySelectorAll('.drag-item');
+    const target = document.getElementById('target-zone');
+    const msg = document.getElementById('game-msg');
+
+    dragItems.forEach(item=>{
+        item.addEventListener('dragstart', e=>{
+            e.dataTransfer.setData('text', e.target.dataset.correct);
+        });
+    });
+
+    target.addEventListener('dragover', e=>{
+        e.preventDefault(); // Allow drop
+        target.style.background = "#c8f7c5"; // Highlight on hover
+    });
+
+    target.addEventListener('dragleave', e=>{
+        target.style.background = "#f0f0f0"; // Reset background
+    });
+
+    target.addEventListener('drop', e=>{
+        e.preventDefault();
+        target.style.background = "#f0f0f0";
+        const correct = e.dataTransfer.getData('text');
+        if(correct === 'true'){
+            msg.textContent = "Correct! 🎉 +10 points";
+            msg.style.color = "green";
+            triggerConfetti(10);
+        } else {
+            msg.textContent = "Oops! ❌ Try again";
+            msg.style.color = "red";
+        }
+    });
+});
+</script>
+
